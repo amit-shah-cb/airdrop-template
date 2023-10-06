@@ -45,13 +45,13 @@ export default function Home() {
 
       const fetchData = async () => {
         console.log("query with address",address);
-        const response = await fetch(commandParams.targetUrl,{
+        const response = await fetch('/api/relay',{
           method: 'POST',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({command: commandParams.command, userAddress: address})
+          body: JSON.stringify({command: commandParams.command, userAddress: address, targetUrl: commandParams.targetUrl})
         })
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
