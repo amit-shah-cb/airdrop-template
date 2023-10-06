@@ -7,9 +7,9 @@ export default function Home() {
   const [address,setAddress] = useState(null)
   useEffect(() => {
     const initEth = async()=>{
-      if(window.ethereum){
+      if((window as any).ethereum){
         try {
-            const accounts = await window.ethereum.request({
+            const accounts = await (window as any).ethereum.request({
                 method: "eth_requestAccounts",
             });
             setAddress(accounts[0])
