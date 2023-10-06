@@ -1,10 +1,17 @@
 'use client'
 import Image from 'next/image'
 import React, { useState, useEffect } from 'react'
+import {base58 } from '@scure/base';
+
+type command = {
+  command: string
+  targetUrl: string
+}
 
 export default function Home() {
   const [data, setData] = useState(null)
   const [address,setAddress] = useState(null)
+  
   useEffect(() => {
     const initEth = async()=>{
       if((window as any).ethereum){
@@ -20,15 +27,32 @@ export default function Home() {
         console.error("window.ethereum context unavailable")
       }
     }
-   
+    
     initEth()
   }, [])
 
   useEffect(()=>{
     if (address){
+      const queryParameters = new URLSearchParams(window.location.search)
+      const base58data = queryParameters.get("data") 
+      // var commandParamsE = base58.encode(Buffer.from(JSON.stringify({command: "cb_marketing_q4", targetUrl: 'https://api.wallet.coinbase.com/rpc/v2/bot/mint'})))
+      // console.log("encoded data",commandParamsE)
+      if (!base58data){
+        console.error("no data received")
+      }
+      var commandParams = JSON.parse(Buffer.from(base58.decode(base58data as string)).toString()) as command
+      console.log("decoded data",commandParams)
+
       const fetchData = async () => {
         console.log("query with address",address);
-        const response = await fetch('https://jsonplaceholder.typicode.com/todos/1')
+        const response = await fetch(commandParams.targetUrl,{
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({command: commandParams.command, userAddress: address})
+        })
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
