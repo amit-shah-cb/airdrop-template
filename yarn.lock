@@ -276,6 +276,16 @@
     suspend-react "^0.1.3"
     zustand "^3.7.1"
 
+"@react-three/postprocessing@^2.15.1":
+  version "2.15.1"
+  resolved "https://registry.yarnpkg.com/@react-three/postprocessing/-/postprocessing-2.15.1.tgz#2a543bab9194b8470e7a81e37d95c2fdec08ff4d"
+  integrity sha512-JWkifAOLNRGkzAk2ImxG5V02aSga+P2jwEuT4LmJkaUj2KNWvw97pZbxTwnzNviccaYohxFJ2BmOISwZwx9FiQ==
+  dependencies:
+    maath "^0.6.0"
+    n8ao "^1.6.6"
+    postprocessing "^6.32.1"
+    three-stdlib "^2.23.4"
+
 "@rushstack/eslint-patch@^1.3.3":
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.5.1.tgz#5f1b518ec5fa54437c0b7c4a821546c64fed6922"
@@ -353,7 +363,22 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.4.tgz#fedc3e5b15c26dc18faae96bf1317487cb3658cf"
   integrity sha512-2L9ifAGl7wmXwP4v3pN4p2FLhD0O1qsJpvKmNin5VA8+UvNVb447UDaAEV6UdrkA+m/Xs58U1RFps44x6TFsVQ==
 
-"@types/webxr@^0.5.2":
+"@types/stats.js@*":
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/@types/stats.js/-/stats.js-0.17.1.tgz#3066e95031f013b0e01d723fb7207c79fd75e6a0"
+  integrity sha512-OgfYE1x2w1jRUXzzKABX+kOdwz2y9PE0uSwnZabkWfJTWOzm7Pvfm4JI2xqRE0q2nwUe2jZLWcrcnhd9lQU63w==
+
+"@types/three@^0.157.0":
+  version "0.157.0"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.157.0.tgz#1efc78bfb12f87f15bcbbc48cdd4cdaad306a700"
+  integrity sha512-+BG+wqEyH506w23tKpwXnCTJb/MeyeQ/wcFlSFQ26Z9hS5Qde2vc7o+aqd+z98b38PVGuHa5GYxg/3CY7qrxFw==
+  dependencies:
+    "@types/stats.js" "*"
+    "@types/webxr" "*"
+    fflate "~0.6.10"
+    meshoptimizer "~0.18.1"
+
+"@types/webxr@*", "@types/webxr@^0.5.2":
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/@types/webxr/-/webxr-0.5.5.tgz#9e0a27e809c8f76cc1ef525d9f96b8fd94ef9c42"
   integrity sha512-HVOsSRTQYx3zpVl0c0FBmmmcY/60BkQLzVnpE9M1aG4f2Z0aKlBWfj4XZ2zr++XNBfkQWYcwhGlmuu44RJPDqg==
@@ -1206,7 +1231,7 @@ fastq@^1.6.0:
   dependencies:
     reusify "^1.0.4"
 
-fflate@^0.6.9:
+fflate@^0.6.9, fflate@~0.6.10:
   version "0.6.10"
   resolved "https://registry.yarnpkg.com/fflate/-/fflate-0.6.10.tgz#5f40f9659205936a2d18abf88b2e7781662b6d43"
   integrity sha512-IQrh3lEPM93wVCEczc9SaAOvkmcoQn/G8Bo1e8ZPlY3X3bnAxWaBdvTdvM1hP62iZp0BXWDy4vTAy4fF0+Dlpg==
@@ -1827,6 +1852,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+maath@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/maath/-/maath-0.6.0.tgz#7841d0fb95bbb37d19b08b7c5458ef70190950d2"
+  integrity sha512-dSb2xQuP7vDnaYqfoKzlApeRcR2xtN8/f7WV/TMAkBC8552TwTLtOO0JTcSygkYMjNDPoo6V01jTw/aPi4JrMw==
+
 maath@^0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/maath/-/maath-0.9.0.tgz#425a9600dfc5d0aecfa48029a2e3eea852531b06"
@@ -1841,6 +1871,11 @@ meshline@^3.1.6:
   version "3.1.6"
   resolved "https://registry.yarnpkg.com/meshline/-/meshline-3.1.6.tgz#eee67d9b0fd9841652cc1dc2d3833093ae8e68ca"
   integrity sha512-8JZJOdaL5oz3PI/upG8JvP/5FfzYUOhrkJ8np/WKvXzl0/PZ2V9pqTvCIjSKv+w9ccg2xb+yyBhXAwt6ier3ug==
+
+meshoptimizer@~0.18.1:
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/meshoptimizer/-/meshoptimizer-0.18.1.tgz#cdb90907f30a7b5b1190facd3b7ee6b7087797d8"
+  integrity sha512-ZhoIoL7TNV4s5B6+rx5mC//fw8/POGyNxS/DZyCJeiZ12ScLfVwRE/GfsxwiTkMYYD5DmK2/JXnEVXqL4rF+Sw==
 
 micromatch@^4.0.4, micromatch@^4.0.5:
   version "4.0.5"
@@ -1885,6 +1920,11 @@ mz@^2.7.0:
     any-promise "^1.0.0"
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
+
+n8ao@^1.6.6:
+  version "1.6.8"
+  resolved "https://registry.yarnpkg.com/n8ao/-/n8ao-1.6.8.tgz#93195eb7c29de962c24ddbbed7d04b72f7ee0d1c"
+  integrity sha512-3xaBaoMIplgPdBK+9mZefa8stWEoA2673h2734wYMxm/hUkMLENMhzymDe+WZueFQq93ly4xpl5s1NJrQBzFOQ==
 
 nanoid@^3.3.6:
   version "3.3.6"
@@ -2146,6 +2186,11 @@ postcss@8.4.31, postcss@^8, postcss@^8.4.23:
     nanoid "^3.3.6"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
+
+postprocessing@^6.32.1:
+  version "6.33.2"
+  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.33.2.tgz#f39ad2671bbe0ce553152206b7f8c1e2980f0128"
+  integrity sha512-xGirHyjArISGVfmjCwXyvuhZm9JpLxEkjdE+ZOSq+7SmSetqFfdpaGfkEjbbFxWShwgwXWmgtcPxvrg9BP+r8g==
 
 potpack@^1.0.1:
   version "1.0.2"
@@ -2567,6 +2612,18 @@ three-mesh-bvh@^0.6.7:
   version "0.6.7"
   resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.6.7.tgz#6491876f5bf0c0d67be81a4402f2abdbb2266d76"
   integrity sha512-RYdjMsH+vZvjLwA+ehI4+ZqTaTehAz4iho2yfL5PdGsIHyxpB78g0iy4Emj8079m/9KBX02TzddkvPSKSruQjg==
+
+three-stdlib@^2.23.4:
+  version "2.27.1"
+  resolved "https://registry.yarnpkg.com/three-stdlib/-/three-stdlib-2.27.1.tgz#201629bde7e31323545c98a9add18ed47a30817a"
+  integrity sha512-KmYNLaWhTfGX+GhALE2jPLb73gL5o8a5p2sGsabRshUE00L8JvTwECMg/6e1InuDOYLGinxmrCR2DdRKlzlBXg==
+  dependencies:
+    "@types/draco3d" "^1.4.0"
+    "@types/offscreencanvas" "^2019.6.4"
+    "@types/webxr" "^0.5.2"
+    draco3d "^1.4.1"
+    fflate "^0.6.9"
+    potpack "^1.0.1"
 
 three-stdlib@^2.26.6:
   version "2.26.13"

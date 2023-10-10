@@ -4,6 +4,8 @@ import React, { useState, useEffect,Suspense,useRef } from 'react'
 import {base58 } from '@scure/base';
 import { Environment, Text3D,Center,Text, OrbitControls,useGLTF,Stats,Circle, MeshDistortMaterial} from '@react-three/drei'
 import { Canvas, useThree} from '@react-three/fiber'
+import { Bloom, DepthOfField, EffectComposer, Noise, Scanline, Vignette,Grid ,ChromaticAberration} from '@react-three/postprocessing'
+import { materialOpacity } from 'three/examples/jsm/nodes/Nodes.js';
 
 //import { TextureLoader } from 'three/src/loaders/TextureLoader'
 
@@ -17,16 +19,34 @@ function Model() {
   camera.zoom = 
     width/ (1.5*(box.max.x - box.min.x));
   camera.updateProjectionMatrix();
-  return <primitive object={gltf.scene} scale={.05} position={[0,-(box.max.y-box.min.y)/2,0]} material={null} wireframe/>
+  return <primitive object={gltf.scene} scale={.05} position={[0,-(box.max.y-box.min.y)/2,0]} material={null}/>
    
 }
 
+const Box = () => {
+  return<></>
+  // return (
+  //   <mesh rotation-x={0.} rotation-z={0.2} position={[0,0,-5.5]}>
+  //     <planeGeometry args={[8, 6]} />
+  //     <meshToonMaterial color={"black"} />
+  //   </mesh>
+  // );
+};
+
+const Box2 = () => {
+  return (
+    <mesh position={[-0.1,1.3,2]}>
+      <planeGeometry args={[100, .6]} />
+      <meshBasicMaterial color={"red"} opacity={0.8} />
+    </mesh>
+  );
+};
 
 function Scene() {
   //const colorMap = useLoader(TextureLoader, 'bg.png')
   return (
     <>
-      <ambientLight intensity={10} />
+      <ambientLight intensity={0} />
       <directionalLight />     
     </>
   )
@@ -100,19 +120,44 @@ export default function Home() {
     <div style={{ width: "100vw", height: "100vh", backgroundColor:'blue'}}>
        <>
        <Canvas orthographic shadows>
-       <ambientLight intensity={1.5} />
+       <ambientLight intensity={2} color={"white"}/>
+       <pointLight position={[1, 1, 1]} color={"blue"} intensity={12}/>
       <directionalLight position={[10, 10, 10]} /> 
        <Suspense fallback={null}>         
-          <Model />
-          <group position={[.5,2.,2.5]}>
-            <Center Top Left>
-              <Text font={'/font.ttf'} size={1}  >
+          <Model />          
+          <Box2 />
+          {/* <group position={[.5,2.1,2.2]}>           
+            <Center>           
+              <Text font={'/font.ttf'} scale={1.4} >
                 BASED
-                <MeshDistortMaterial  />
-              </Text>      
+                <meshBasicMaterial color={'red'}/>                
+              </Text>                     
+            </Center> 
+          </group> */}
+          <group position={[.5,2.2,2.5]}>
+            <Center >           
+              <Text font={'/font.ttf'} scale={[1.4,1.8,1]} fillOpacity={0.95}  >
+                {/*outlineColor={"black"} outlineWidth={.01}
+                */}
+                BASED
+                <meshBasicMaterial color={'#FFC300'}/>                
+              </Text>                     
             </Center> 
           </group>
+          
         </Suspense>
+        <Box />
+        <EffectComposer>
+        {/* <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} /> */}
+        {/* <Grid scale={.1} /> */}
+        <ChromaticAberration        
+          offset={[0.01, 0.002]} // color offset
+        />
+        <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.9} height={500} />
+        {/* <Noise opacity={0.02} /> */}
+        {/* <Vignette eskil={false} offset={0.1} darkness={1.1} /> */}
+       
+      </EffectComposer>
       <OrbitControls target={[0, 0, 0]} />
       <axesHelper args={[5]} />
       <Stats />
