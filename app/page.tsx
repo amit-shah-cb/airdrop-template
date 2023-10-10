@@ -30,8 +30,8 @@ function Model({setLoaded}:any) {
 }
 const Box2 = () => {
   return (
-    <mesh position={[-0.1,1.35,2]}>
-      <planeGeometry args={[6, 1.5]} />
+    <mesh position={[-0.1,1.35,2.05]}>
+      <planeGeometry args={[5.5, 1.5]} />
       <meshBasicMaterial color={"red"} opacity={0.8} />
     </mesh>
   );
