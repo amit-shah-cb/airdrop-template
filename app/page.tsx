@@ -1,7 +1,36 @@
 'use client'
-import Image from 'next/image'
-import React, { useState, useEffect } from 'react'
+import * as THREE from 'three'
+import React, { useState, useEffect,Suspense,useRef } from 'react'
 import {base58 } from '@scure/base';
+import { Environment, Text3D,Center,Text, OrbitControls,useGLTF,Stats,Circle, MeshDistortMaterial} from '@react-three/drei'
+import { Canvas, useThree} from '@react-three/fiber'
+
+//import { TextureLoader } from 'three/src/loaders/TextureLoader'
+
+
+function Model() {
+  const {camera, size:{width,height}} = useThree()
+  const gltf = useGLTF('/david_head/scene.gltf')
+  const box = new THREE.Box3().setFromObject(gltf.scene);
+  // const boxSize = box.getSize(new THREE.Vector3()).length();
+  // const boxCenter = box.getCenter(new THREE.Vector3());
+  camera.zoom = 
+    width/ (1.5*(box.max.x - box.min.x));
+  camera.updateProjectionMatrix();
+  return <primitive object={gltf.scene} scale={.05} position={[0,-(box.max.y-box.min.y)/2,0]} material={null} wireframe/>
+   
+}
+
+
+function Scene() {
+  //const colorMap = useLoader(TextureLoader, 'bg.png')
+  return (
+    <>
+      <ambientLight intensity={10} />
+      <directionalLight />     
+    </>
+  )
+}
 
 type command = {
   command: string
@@ -9,78 +38,164 @@ type command = {
 }
 
 export default function Home() {
-  const [data, setData] = useState(null)
-  const [address,setAddress] = useState(null)
+  // const [data, setData] = useState(null)
+  // const [address,setAddress] = useState(null)
   
-  useEffect(() => {
-    const initEth = async()=>{
-      if((window as any).ethereum){
-        try {
-            const accounts = await (window as any).ethereum.request({
-                method: "eth_requestAccounts",
-            });
-            setAddress(accounts[0])
-        } catch (error) {
-            console.log(error)
-        }
-      }else{
-        console.error("window.ethereum context unavailable")
-      }
-    }
+  // useEffect(() => {
+  //   const initEth = async()=>{
+  //     if((window as any).ethereum){
+  //       try {
+  //           const accounts = await (window as any).ethereum.request({
+  //               method: "eth_requestAccounts",
+  //           });
+  //           setAddress(accounts[0])
+  //       } catch (error) {
+  //           console.log(error)
+  //       }
+  //     }else{
+  //       console.error("window.ethereum context unavailable")
+  //     }
+  //   }
     
-    initEth()
-  }, [])
+  //   initEth()
+  // }, [])
 
-  useEffect(()=>{
-    if (address){
-      const queryParameters = new URLSearchParams(window.location.search)
-      const base58data = queryParameters.get("data") 
-      // var commandParamsE = base58.encode(Buffer.from(JSON.stringify({command: "cb_marketing_q4", targetUrl: 'https://api.wallet.coinbase.com/rpc/v2/bot/mint'})))
-      // console.log("encoded data",commandParamsE)
-      if (!base58data){
-        console.error("no data received")
-      }
-      var commandParams = JSON.parse(Buffer.from(base58.decode(base58data as string)).toString()) as command
-      console.log("decoded data",commandParams)
+  // useEffect(()=>{
+  //   if (address){
+  //     const queryParameters = new URLSearchParams(window.location.search)
+  //     const base58data = queryParameters.get("data") 
+  //     // var commandParamsE = base58.encode(Buffer.from(JSON.stringify({command: "cb_marketing_q4", targetUrl: 'https://api.wallet.coinbase.com/rpc/v2/bot/mint'})))
+  //     // console.log("encoded data",commandParamsE)
+  //     if (!base58data){
+  //       console.error("no data received")
+  //     }
+  //     var commandParams = JSON.parse(Buffer.from(base58.decode(base58data as string)).toString()) as command
+  //     console.log("decoded data",commandParams)
 
-      const fetchData = async () => {
-        console.log("query with address",address);
-        const response = await fetch('/api/relay',{
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({command: commandParams.command, userAddress: address, targetUrl: commandParams.targetUrl})
-        })
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-        const result = await response.json()
-        setData(result)      
-      } 
-      fetchData().catch((e) => {
-        // handle the error as needed
-        console.error('An error occurred while fetching the data: ', e)
-      })
-    }
-  },[address])
+  //     const fetchData = async () => {
+  //       console.log("query with address",address);
+  //       const response = await fetch('/api/relay',{
+  //         method: 'POST',
+  //         headers: {
+  //           'Accept': 'application/json',
+  //           'Content-Type': 'application/json'
+  //         },
+  //         body: JSON.stringify({command: commandParams.command, userAddress: address, targetUrl: commandParams.targetUrl})
+  //       })
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! status: ${response.status}`)
+  //       }
+  //       const result = await response.json()
+  //       setData(result)      
+  //     } 
+  //     fetchData().catch((e) => {
+  //       // handle the error as needed
+  //       console.error('An error occurred while fetching the data: ', e)
+  //     })
+  //   }
+  // },[address])
 
   
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          <code className="font-mono font-bold">{address}</code>
-        </p>        
+    <div style={{ width: "100vw", height: "100vh", backgroundColor:'blue'}}>
+       <>
+       <Canvas orthographic shadows>
+       <ambientLight intensity={1.5} />
+      <directionalLight position={[10, 10, 10]} /> 
+       <Suspense fallback={null}>         
+          <Model />
+          <group position={[.5,2.,2.5]}>
+            <Center Top Left>
+              <Text font={'/font.ttf'} size={1}  >
+                BASED
+                <MeshDistortMaterial  />
+              </Text>      
+            </Center> 
+          </group>
+        </Suspense>
+      <OrbitControls target={[0, 0, 0]} />
+      <axesHelper args={[5]} />
+      <Stats />
+    </Canvas>
+    </>
+      {/* <Canvas orthographic  camera={{ position: [0, 0, 100], zoom: 1 }}>
+      <primitive
+        object={gltf.scene}
+        position={[0, 0, 0]}
+        children-0-castShadow        
+      />
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[10, 10, 10]} /> */}
+    {/* <Center Top Left>
+      <Text3D font={'/font.json'} size={80} >
+        WORLD
+        <meshNormalMaterial />
+      </Text3D>      
+      </Center> */}
+       {/* <group position={[-20, -20, 0]}>
+      <Text
+        font={
+          "/font.ttf"
+        }
+        //scale={[50, 200, 11]}
+        fontSize={300}
+        color="yellow" // default
+        anchorX="center" // default
+        anchorY="middle" // default
+        
+      >
+        AIR
+      </Text>
+      </group>
+      <group position={[-10, -10, 0]}>
+      <Text
+        font={
+          "/font.ttf"
+        }
+        //scale={[50, 200, 11]}
+        fontSize={300}
+        color="orange" // default
+        anchorX="center" // default
+        anchorY="middle" // default
+        
+      >
+        AIR
+      </Text>
+      </group>
+      <group position={[0, 0, 0]}>     
+        <Text
+        font={
+          "/font.ttf"
+        }
+        //scale={[50, 200, 11]}
+        fontSize={300}
+        color="red" // default
+        anchorX="center" // default
+        anchorY="middle" // default
+        
+      >
+        AIR
+      </Text>
+      
+    </group>
+    <group position={[0, -190, 0]}>
+    <Text
+      font={
+        "/font.ttf"
+      }
+      //scale={[50, 200, 11]}
+      fontSize={195}
+      color="black" // default
+      anchorX="center" // default
+      anchorY="middle" // default
+      
+    >
+      DROP
+    </Text>
+    </group> */}
+    {/* <OrbitControls enableZoom={false} enablePan={false} minPolarAngle={Math.PI / 2} maxPolarAngle={Math.PI / 2} />
+      </Canvas> */}
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-      {JSON.stringify(data)}
-      </div>
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-      </div>
-    </main>
   )
 }
