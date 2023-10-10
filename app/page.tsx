@@ -1,26 +1,24 @@
 'use client'
 import * as THREE from 'three'
-import React, { useState, useEffect,Suspense,useRef } from 'react'
+import React, { useState, useEffect,Suspense,useRef, useCallback } from 'react'
 import {base58 } from '@scure/base';
 import { Environment, Text3D,Center,Text, OrbitControls,useGLTF,Stats,Circle, MeshDistortMaterial} from '@react-three/drei'
-import { Canvas, useThree} from '@react-three/fiber'
+import { Canvas, useFrame, useThree} from '@react-three/fiber'
 import { Bloom, DepthOfField, EffectComposer, Noise, Scanline, Vignette,Grid ,ChromaticAberration} from '@react-three/postprocessing'
 import { materialOpacity } from 'three/examples/jsm/nodes/Nodes.js';
 
 //import { TextureLoader } from 'three/src/loaders/TextureLoader'
 
-
 function Model() {
   const {camera, size:{width,height}} = useThree()
   const gltf = useGLTF('/david_head/scene.gltf')
   const box = new THREE.Box3().setFromObject(gltf.scene);
-  // const boxSize = box.getSize(new THREE.Vector3()).length();
-  // const boxCenter = box.getCenter(new THREE.Vector3());
-  camera.zoom = 
-    width/ (1.5*(box.max.x - box.min.x));
-  camera.updateProjectionMatrix();
-  return <primitive object={gltf.scene} scale={.05} position={[0,-(box.max.y-box.min.y)/2,0]} material={null}/>
-   
+    // const boxSize = box.getSize(new THREE.Vector3()).length();
+    // const boxCenter = box.getCenter(new THREE.Vector3());
+    // camera.zoom = 
+    //   width/ (1.5*(box.max.x - box.min.x));
+  camera.zoom = width/ (1.*(10));       
+  return <primitive object={gltf.scene} scale={.05} position={[0,-10/2,0]} />
 }
 
 const Box = () => {
@@ -58,6 +56,8 @@ type command = {
 }
 
 export default function Home() {
+   const [status, updateStatus] = useState("PROCESSING")
+   const [box, setBox] = useState(null)
   // const [data, setData] = useState(null)
   // const [address,setAddress] = useState(null)
   
@@ -124,8 +124,8 @@ export default function Home() {
        <pointLight position={[1, 1, 1]} color={"blue"} intensity={12}/>
       <directionalLight position={[10, 10, 10]} /> 
        <Suspense fallback={null}>    
-       <group>     
-          <Model />          
+       <group>    
+          <Model />    
           <Box2 />
           {/* <group position={[.5,2.1,2.2]}>           
             <Center>           
@@ -148,12 +148,13 @@ export default function Home() {
           <group position-z={4.2} position-y={-1}>
           <Center bottom>
             <Text3D font={'/gaming.json'} size={.6} >            
-              [ IN PROGRESS ]
+              [ {status} ]
               <meshBasicMaterial color={"lightgreen"} />
             </Text3D>      
           </Center>
           </group>
         </group>
+       
         </Suspense>
         <Box />
         
