@@ -1,13 +1,10 @@
 'use client'
 import * as THREE from 'three'
-import React, { useState, useEffect,Suspense,useRef, useCallback } from 'react'
+import React, { useState, useEffect,Suspense } from 'react'
 import {base58 } from '@scure/base';
-import { Environment, Text3D,Center,Text, OrbitControls,useGLTF,Stats,Circle, MeshDistortMaterial} from '@react-three/drei'
-import { Canvas, useFrame, useThree} from '@react-three/fiber'
-import { Bloom, DepthOfField, EffectComposer, Noise, Scanline, Vignette,Grid ,ChromaticAberration} from '@react-three/postprocessing'
-import { materialOpacity } from 'three/examples/jsm/nodes/Nodes.js'
-import { Glitch } from '@react-three/postprocessing'
-import { GlitchMode } from 'postprocessing'
+import { Text3D,Center,Text, OrbitControls,useGLTF,Stats} from '@react-three/drei'
+import { Canvas,useThree} from '@react-three/fiber'
+import { Bloom, EffectComposer,ChromaticAberration} from '@react-three/postprocessing'
 //import { TextureLoader } from 'three/src/loaders/TextureLoader'
 
 function Model({setLoaded}:any) {
@@ -137,17 +134,8 @@ export default function Home() {
             </Text3D>      
           </Center>
           </group>    
-          <Model setLoaded={setLoaded} />  
-         
-          <Box2 />
-          {/* <group position={[.5,2.1,2.2]}>           
-            <Center>           
-              <Text font={'/font.ttf'} scale={1.4} >
-                BASED
-                <meshBasicMaterial color={'red'}/>                
-              </Text>                     
-            </Center> 
-          </group> */}
+          <Model setLoaded={setLoaded} />   
+          <Box2 />        
           <group position={[.5,2.2,2.5]}>
             <Center >           
               <Text font={'/font.ttf'} scale={[1.4,1.8,1]} fillOpacity={1.}  >
@@ -175,91 +163,13 @@ export default function Home() {
           // @ts-expect-error: Let's ignore a compile error  
           offset={[0.01, 0.002]} // color offset
         />
-        <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.9} height={500} />
-       
-        {/* <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} /> */}
-        {/* <Grid scale={.1} /> */}
-        
-        
-        {/* <Vignette eskil={false} offset={0.1} darkness={1.1} /> */}                
+        <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.9} height={500} />               
       </EffectComposer>
       <OrbitControls target={[0, 0, 0]} />
-      <axesHelper args={[5]} />
-      <Stats />
+      {/* <axesHelper args={[5]} />
+      <Stats /> */}
     </Canvas>
-    </>
-      {/* <Canvas orthographic  camera={{ position: [0, 0, 100], zoom: 1 }}>
-      <primitive
-        object={gltf.scene}
-        position={[0, 0, 0]}
-        children-0-castShadow        
-      />
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[10, 10, 10]} /> */}
-    
-       {/* <group position={[-20, -20, 0]}>
-      <Text
-        font={
-          "/font.ttf"
-        }
-        //scale={[50, 200, 11]}
-        fontSize={300}
-        color="yellow" // default
-        anchorX="center" // default
-        anchorY="middle" // default
-        
-      >
-        AIR
-      </Text>
-      </group>
-      <group position={[-10, -10, 0]}>
-      <Text
-        font={
-          "/font.ttf"
-        }
-        //scale={[50, 200, 11]}
-        fontSize={300}
-        color="orange" // default
-        anchorX="center" // default
-        anchorY="middle" // default
-        
-      >
-        AIR
-      </Text>
-      </group>
-      <group position={[0, 0, 0]}>     
-        <Text
-        font={
-          "/font.ttf"
-        }
-        //scale={[50, 200, 11]}
-        fontSize={300}
-        color="red" // default
-        anchorX="center" // default
-        anchorY="middle" // default
-        
-      >
-        AIR
-      </Text>
-      
-    </group>
-    <group position={[0, -190, 0]}>
-    <Text
-      font={
-        "/font.ttf"
-      }
-      //scale={[50, 200, 11]}
-      fontSize={195}
-      color="black" // default
-      anchorX="center" // default
-      anchorY="middle" // default
-      
-    >
-      DROP
-    </Text>
-    </group> */}
-    {/* <OrbitControls enableZoom={false} enablePan={false} minPolarAngle={Math.PI / 2} maxPolarAngle={Math.PI / 2} />
-      </Canvas> */}
+    </>      
       </div>
 
   )
