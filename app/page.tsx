@@ -123,7 +123,8 @@ export default function Home() {
        <ambientLight intensity={2} color={"white"}/>
        <pointLight position={[1, 1, 1]} color={"blue"} intensity={12}/>
       <directionalLight position={[10, 10, 10]} /> 
-       <Suspense fallback={null}>         
+       <Suspense fallback={null}>    
+       <group>     
           <Model />          
           <Box2 />
           {/* <group position={[.5,2.1,2.2]}>           
@@ -144,13 +145,14 @@ export default function Home() {
               </Text>                     
             </Center> 
           </group>
-          
+        </group>
         </Suspense>
         <Box />
         <EffectComposer>
         {/* <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} /> */}
         {/* <Grid scale={.1} /> */}
-        <ChromaticAberration        
+        <ChromaticAberration      
+          // @ts-expect-error: Let's ignore a compile error  
           offset={[0.01, 0.002]} // color offset
         />
         <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.9} height={500} />
