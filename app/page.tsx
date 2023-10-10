@@ -13,6 +13,11 @@ import { GlitchMode } from 'postprocessing'
 function Model({setLoaded}:any) {
   const {camera, size:{width,height}} = useThree()
   const gltf = useGLTF('/david_head/scene.gltf')
+  // const davidRef = useRef(gltf.scene)
+  // useFrame((_, delta) => {
+  //   //davidRef.current.rotation.x += 1 * delta
+  //   davidRef.current.rotation.y += 0.5 * delta
+  // })
   //NOTE dynamic zoom which we wont currently support
   // const box = new THREE.Box3().setFromObject(gltf.scene);
   // const boxSize = box.getSize(new THREE.Vector3()).length();
@@ -23,11 +28,10 @@ function Model({setLoaded}:any) {
   setLoaded(true)       
   return <primitive object={gltf.scene} scale={.05} position={[0,-10/2,0]} />
 }
-
 const Box2 = () => {
   return (
-    <mesh position={[-0.1,1.3,2]}>
-      <planeGeometry args={[100, .6]} />
+    <mesh position={[-0.1,1.35,2]}>
+      <planeGeometry args={[6, 1.5]} />
       <meshBasicMaterial color={"red"} opacity={0.8} />
     </mesh>
   );
@@ -42,7 +46,8 @@ export default function Home() {
    const [status, updateStatus] = useState("PROCESSING")
    const [isLoaded, setLoaded] = useState(false)
     const [address,setAddress] = useState(null)
-  
+
+
   useEffect(() => {
     const initEth = async()=>{
       if((window as any).ethereum){
@@ -113,6 +118,7 @@ export default function Home() {
     
   },[address,isLoaded])
 
+ 
   
   return (
     <div style={{ width: "100vw", height: "100vh", backgroundColor:'blue'}}>
@@ -131,7 +137,8 @@ export default function Home() {
             </Text3D>      
           </Center>
           </group>    
-          <Model setLoaded={setLoaded} />    
+          <Model setLoaded={setLoaded} />  
+         
           <Box2 />
           {/* <group position={[.5,2.1,2.2]}>           
             <Center>           
