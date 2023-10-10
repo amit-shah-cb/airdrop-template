@@ -137,18 +137,29 @@ export default function Home() {
           </group> */}
           <group position={[.5,2.2,2.5]}>
             <Center >           
-              <Text font={'/font.ttf'} scale={[1.4,1.8,1]} fillOpacity={0.95}  >
+              <Text font={'/font.ttf'} scale={[1.4,1.8,1]} fillOpacity={1.}  >
                 {/*outlineColor={"black"} outlineWidth={.01}
                 */}
                 BASED
                 <meshBasicMaterial color={'#FFC300'}/>                
               </Text>                     
-            </Center> 
+            </Center>            
+          </group>
+          <group position-z={4.2} position-y={-1}>
+          <Center bottom>
+            <Text3D font={'/gaming.json'} size={.6} >            
+              [ IN PROGRESS ]
+              <meshBasicMaterial color={"lightgreen"} />
+            </Text3D>      
+          </Center>
           </group>
         </group>
         </Suspense>
         <Box />
+        
+      
         <EffectComposer>
+        
         {/* <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} /> */}
         {/* <Grid scale={.1} /> */}
         <ChromaticAberration      
@@ -156,9 +167,8 @@ export default function Home() {
           offset={[0.01, 0.002]} // color offset
         />
         <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.9} height={500} />
-        {/* <Noise opacity={0.02} /> */}
-        {/* <Vignette eskil={false} offset={0.1} darkness={1.1} /> */}
-       
+        
+        {/* <Vignette eskil={false} offset={0.1} darkness={1.1} /> */}        
       </EffectComposer>
       <OrbitControls target={[0, 0, 0]} />
       <axesHelper args={[5]} />
@@ -173,12 +183,7 @@ export default function Home() {
       />
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 10]} /> */}
-    {/* <Center Top Left>
-      <Text3D font={'/font.json'} size={80} >
-        WORLD
-        <meshNormalMaterial />
-      </Text3D>      
-      </Center> */}
+    
        {/* <group position={[-20, -20, 0]}>
       <Text
         font={
