@@ -72,7 +72,7 @@ export default function Home() {
       // var commandParamsE = base58.encode(Buffer.from(JSON.stringify({command: "cb_marketing_q4", targetUrl: 'https://api.wallet.coinbase.com/rpc/v2/bot/mint'})))
       // console.log("encoded data",commandParamsE)
       if (!base58data){
-        updateStatus("ERROR")
+        updateStatus("DATA ERROR")
         console.error("no data received")
       }
       try{
@@ -92,25 +92,22 @@ export default function Home() {
         })
         if (!response.ok) {
           console.error(`HTTP error! status: ${response.status}`)
-          updateStatus("ERROR")
+          updateStatus("HTTP ERROR")
         }
         const result = await response.json()
         console.log(result)
         updateStatus(result.result);      
       } 
 
-      const timer = setTimeout(() => {
-        fetchData().catch((e) => {
-          updateStatus("TIMEOUT")
-          console.error('An error occurred while fetching the data: ', e)
-        })
-      }, 500);
-      return () => clearTimeout(timer);
+      fetchData().catch((e) => {
+        updateStatus("TIMEOUT")
+        console.error('An error occurred while fetching the data: ', e)
+      })
     }catch(e){
       console.error(e)
-      updateStatus("ERROR")
+      updateStatus("DECODE ERROR")
     }
-
+    
   }
     
   },[address,isLoaded])
