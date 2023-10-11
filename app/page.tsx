@@ -91,8 +91,9 @@ export default function Home() {
           body: JSON.stringify({command: commandParams.command, userAddress: address, targetUrl: commandParams.targetUrl})
         })
         if (!response.ok) {
-          console.error(`HTTP error! status: ${response.status}`)
+          console.error(`HTTP error! status: ${response.status}`)          
           updateStatus("HTTP ERROR")
+          throw new Error(`HTTP error! status: ${response.status}`)
         }
         const result = await response.json()
         console.log(result)
@@ -100,7 +101,6 @@ export default function Home() {
       } 
 
       fetchData().catch((e) => {
-        updateStatus("TIMEOUT")
         console.error('An error occurred while fetching the data: ', e)
       })
     }catch(e){
